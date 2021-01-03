@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="{% static "css/lmx.css" %}"
+    <meta charset="utf-8">
+    <title>Course List</title>
+  </head>
+  <body>
+    <h1>Courses:</h1>
+    <table border="1">
+      <thead>
+        <th>Id</th>
+        <th>Course Tag</th>
+        <th>Course Name</th>
+        <th>Catergory</th>
+        <th>Phase</th>
+        <th>Sessions</th>
+        <th>Total Slots</th>
+        <th>Available Slots</th>
+        <th>Start Date</th>
+      </thead>
+      {% for course in course_list %}
+      <tr>
+        <td>{{course.id}}</td>
+        <td>{{course.courseTag}}</td>
+        <td>{{course.courseName}}</td>
+        <td>{{course.categoryName}}</td>
+        <td>{{course.phaseName}}</td>
+        <td>{{course.sessionCount}}</td>
+        <td>{{course.total_slots}}</td>
+        <td>{{course.available_slots}}</td>
+        <td>{{course.startDateTime}}</td>
+        <td> <a href="/update/{{course.id}}">Udpate</a> </td>
+        <td> <a href="/delete/{{course.id}}">Delete</a> </td>
+        <td> <a href="/addData/{{course.id}}">Add Student</a> </td>
+        <td> <a href="/details/{{course.id}}">Show Student</a> </td>
+      </tr>
+      {% endfor %}
+    </table>
+    <br/>
+    <a href="create/">Add Course</a>
+  </body>
+</html>
