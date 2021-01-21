@@ -4,6 +4,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import  reverse_lazy
 from django.core.paginator import Paginator
 from lmx.forms import CourseStudentDataForm
+from django.db.models import Q
 
 # Create your views here.
 class CourseListView(ListView):
@@ -34,17 +35,30 @@ def addData(request,**kwargs):
     return render(request,'lmx/coursestudentdata_form.html',{'form':form, 'course': course})
 
 def details(request,**kwargs):
+    # course_number = request.GET.get('search')
+    print('pdk',kwargs['pk'])
+    data = Course.objects.filter(id = kwargs['pk'])
+    responseData = []
+    for eachEntry in data:
+        responseData.append(eachEntry)
+    return render(request,'lmx/coursestudentdetails.html',{'course_list':data})
+
+def student_details(request,**kwargs):
+    # course_number = request.GET.get('search')
+    print('pdk',kwargs['pk'])
     data = CourseStudentData.objects.filter(course_id = kwargs['pk'])
     responseData = []
     for eachEntry in data:
         responseData.append(eachEntry)
-    return render(request,'lmx/coursestudentdetails.html',{'data':responseData})
-
-
+    return render(request,'lmx/coursestudentdetails.html',{'course_list':data})
 
 def course_list(request):
-    course = Course.objects.all()
-    paginator = Paginator(course, 3)
+    search_post = request.GET.get('search')
+    if search_post:
+        course = Course.objects.filter(Q(courseName__icontains=search_post))
+    else:
+        course = Course.objects.all()
+    paginator = Paginator(course, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request,'lmx/course_list.html', {'course_list': page_obj})
