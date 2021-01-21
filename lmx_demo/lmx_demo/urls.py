@@ -19,7 +19,9 @@ from lmx import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.CourseListView.as_view(),name='index'),
+    #path('',views.CourseListView.as_view(),name='index')
+    path('',views.course_list,name='index'),
+    path('<int:page>',views.course_list,name='index'),
     path('create/',views.CourseCreateView.as_view()),
     path('update/<int:pk>/',views.CourseUdpateView.as_view()),
     path('delete/<int:pk>/',views.CourseDeleteView.as_view()),

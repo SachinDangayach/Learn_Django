@@ -2,13 +2,49 @@
 {% load static %}
 <html lang="en" dir="ltr">
   <head>
-    <link rel="stylesheet" href="{% static "css/lmx.css" %}"
+    <link rel="stylesheet" href="{% static "css/lmx.css" %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <meta charset="utf-8">
     <title>Course List</title>
   </head>
   <body>
-    <h1>Courses:</h1>
-    <table border="1">
+    <br>
+    <div class="container-fluid bg-dark text-light">
+      <br><h3 class="font-weight-bold text-center">COURSES
+      <a href="create/">Add Course</a></h3>
+      <hr>
+    </div>
+      <div class="container bg-light text-dark">
+        <div class="row">
+        {% for course in course_list %}
+          <div class="col-md-4 d-flex align-items-stretch">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{ forloop.counter0|add:"1" }}. {{ course.courseName }}</h5>
+              </div>
+              
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Catergory: {{course.categoryName}}</li>
+                <li class="list-group-item">Id: {{course.id}}</li>
+                <li class="list-group-item">Tag: {{course.courseTag}}</li>
+                <li class="list-group-item">PhaseName: {{course.phaseName}}</li>
+                <li class="list-group-item">SessionCount: {{course.sessionCount}}</li>
+                <li class="list-group-item">PhaseName: {{course.phaseName}}</li>
+                <li class="list-group-item">Total Slots: {{course.total_slots}}</li>
+                <li class="list-group-item">Available Slots: {{course.available_slots}}</li>
+                <li class="list-group-item">StartDate: {{course.startDateTime}}</li>
+               
+              </ul>
+            </div>
+          </div>
+            {% endfor %}
+    </div>
+  </div>
+
+    <!-- <table border="1">
       <thead>
         <th>Id</th>
         <th>Course Tag</th>
@@ -20,13 +56,14 @@
         <th>Available Slots</th>
         <th>Start Date</th>
       </thead>
+      
       {% for course in course_list %}
       <tr>
-        <td>{{course.id}}</td>
-        <td>{{course.courseTag}}</td>
-        <td>{{course.courseName}}</td>
-        <td>{{course.categoryName}}</td>
-        <td>{{course.phaseName}}</td>
+        <td>{{course.id}}</td>#
+        <td>{{course.courseTag}}</td>#
+        <td>{{course.courseName}}</td>#
+        <td>{{course.categoryName}}</td>#
+        <td>{{course.phaseName}}</td>#
         <td>{{course.sessionCount}}</td>
         <td>{{course.total_slots}}</td>
         <td>{{course.available_slots}}</td>
@@ -37,8 +74,44 @@
         <td> <a href="/details/{{course.id}}">Show Student</a> </td>
       </tr>
       {% endfor %}
-    </table>
-    <br/>
-    <a href="create/">Add Course</a>
+    </table> -->
+ 
+
+    <!--Pagination-->
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        {% if course_list.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ movies.previous_page_number }}">Previous</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+          </li>
+        {% endif %}
+        {% for i in course_list.paginator.page_range %}
+          {% if course_list.number == i %}
+            <li class="page-item active" aria-current="page">
+              <span class="page-link">
+                {{ i }}
+                <span class="sr-only">(current)</span>
+              </span>
+            </li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if course_list.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ course_list.next_page_number }}">Next</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <!--end of Pagination-->
   </body>
 </html>
