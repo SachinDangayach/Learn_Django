@@ -16,8 +16,8 @@
   </head>
  
   <body>
-    <h3 >Course Details</h3>
-    <table class="table table-striped table-hover">
+    <div class="p-2 mb-2 bg-secondary text-white text-center font-weight-bold"><h4>Course Details</h4></div>
+    <table class="table table-striped table-hover table-bordered">
       <thead class="thead-dark text-center">
         <th>Id</th>
         <th>Course Tag</th>
@@ -30,7 +30,7 @@
         <th>Start Date</th>
       </thead>
       {% for course in course_list %}
-      <tbody>
+      <tbody class="text-center">
       <tr>
         <td>{{course.id}}</td>
         <td>{{course.courseTag}}</td>
